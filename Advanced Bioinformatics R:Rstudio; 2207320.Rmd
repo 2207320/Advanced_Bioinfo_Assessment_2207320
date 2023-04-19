@@ -1,0 +1,513 @@
+---
+title: "Advanced Bioinformatics 2023 assessment"
+author: '2207320'
+date: "2023-04-13"
+output: html_document
+---
+
+# [General R/Rstudio assessment]{.underline}
+
+## [Task 3.1]{.underline}
+
+Using the sum() function and : operator, write an expression in the code snippet to evaluate the sum of all integers between 5 and 55.
+
+```{r}
+
+## The sum() function can be used to add together the numbers or values that are placed within the () brackets. 
+
+## The colon : operator is used in R to create the sequence of the desired integer range. So for example, 5:55 will create a sequence of all the integers going from 5 to 55. 
+
+## So to evaluate the sum of all integers between 5 and 55, the following can be used
+
+sum(5:55)
+
+```
+
+## [Task 3.2]{.underline}
+
+Write a function called sumfun with one input parameter, called n, that calculates the sum of all integers between 5 and n. Use the function to do the calculation for n = 10, n = 20, and n = 100 and present the results.
+
+```{r}
+
+## In order to create the function 'sumfun', we first need to define sumfun as the function and include 'n' as our input parameter. Subsequently, we need to define the operation that we would like the function to carry out and we do this by utilising the {} brackets. As we are seeking to sum all the integers between 5 and n, our operation will then be {sum(5:n)}.
+
+sumfun <- function(n) {sum(5:n)}
+
+## The function that we have established can now be used to calculate the sum of all the integers between 5 and n, where we can do the calculation for n=10, n=20 and n=100
+
+sumfun(10)
+
+sumfun(20)
+
+sumfun(100)
+
+```
+
+## [Task 3.3]{.underline}
+
+The famous Fibonacci series is calculated as the sum of the two preceding members of the sequence, where the first two steps in the sequence are 1, 1. Write an R script using a for loop to calculate and print out the first 12 entries of the Fibonacci series.
+
+```{r}
+
+## First we need to define a function called Fibonacci, which will have an input parameter called 'n'. 'n' will be the number of terms of the Fibonacci series that we would like to eventually be printed.
+Fibonacci <- function(n)
+  
+## Following this, we need to now define that the function has a numerical value
+Fibonacci <- numeric(n) #The 'n' here still represents the eventual number of terms of the Fibonacci series that we would like to print down the line. 
+
+## We can now define 'n' as 12, as we would like the first 12 values of the Fibonacci series to be printed
+Fibonacci <- numeric(12)
+
+## To proceed, we need to specify and indicate that the first two entries of the Fibonacci series are 1 and 1, respectively. 
+Fibonacci[1] <- 1 #This is done to clarify that the first entry in the Fibonacci series is 1
+Fibonacci[2] <- 1 #This is done to clarify that the second entry in the Fibonacci series is 1 
+
+## Now we need to create a for loop to calculate the first 12 entries of the Fibonacci series. The Fibonacci series functions via adding the two preceding terms together.
+for(i in 3:12) Fibonacci[i] <- Fibonacci[i-2] + Fibonacci[i-1] #This will now enable the Fibonacci series to be printed from the 3rd entry, all the way down to the 12th entry of the series
+
+## We can now print the first 12 entries of the Fibonacci series 
+print(Fibonacci)
+
+```
+
+## [Task 3.4]{.underline}
+
+With the mtcars dataset bundled with R, use ggplot to generate a box of miles per gallon (in the variable mpg) as a function of the number of gears (in the variable gear). Use the fill aesthetic to colour bars by number of gears.
+
+```{r}
+
+## We first need to load ggplot from the library
+
+library(ggplot2)
+
+## In order to create the graph, the ggplot() function needs to be used. Within the () brackets of the ggplot function, we now need to tell ggplot to use the mtcars dataset and inform it of what the x and y variables are using data and aes respectively. To do this, we use the following: (data = mtcars, aes(x= as.factor(gear), y= mpg)). We then need to create the boxplot, fill the bars of the boxplot with colour and give the graph a title. We can create the boxplot via use of the geom_boxplot function, and we can colour the bars via the aes fill function to colour them by the number of gears. We can give the graph a name via the function ggtitle. The full command for all of the above is shown below.
+
+ggplot(data = mtcars, aes(x= as.factor(gear), y= mpg)) + geom_boxplot(aes(fill= as.factor(gear))) + ggtitle("Miles per gallon (mpg) vs. Number of gears")
+
+```
+
+## [Task 3.5]{.underline}
+
+Using the cars dataset and the function lm, fit a linear relationship between speed and breaking distance in the variable distance. What are the fitted slope and intercept of the line, and their standard errors? What are the units used for the variables in the dataset?
+
+```{r}
+
+## To begin, we need to assign the variable x to speed and the variable y to the breaking distance and indicate that we are using the cars dataset
+
+x <- cars$speed
+y <- cars$dist
+
+## We can then fit a linear relationship between the speed and the breaking distance using the fit and lm function
+
+fit <- lm(formula = 'y ~ x')
+
+## We can use the summary() function to display the results of this linear relationship, which will include the slope, the intercept of the line and their standard errors
+
+summary(fit)
+
+```
+
+```{r}
+## To answer the question stated above:
+
+## The fitted slope = 3.9324
+
+## The intercept of the line = -17.5791
+
+## Their standard errors = standard error of the slope is 0.4155 and the standard error of the intercept is 6.7584
+
+## Units used for the variables in the dataset = units for speed are miles per hour (mph) and the units for breaking distance are feet (ft)
+```
+
+## [Task 3.6]{.underline}
+
+Use ggplot to plot the data points from Task 3.5 and the linear fit
+
+```{r}
+
+## Firstly, we have to load ggplot from the library
+
+library(ggplot2)
+
+## Then we need to define a new variable for the plot, in this case it will be 'ggplot'. Then we need to use the ggplot() function to indicate that the cars dataset will be utilised as an input. We can then also use the aes function to denote the x and y variables, which will be speed and distance respectively. Furthermore, the geom_point() function is used to create the scatter plot and the geom_smooth() function will be used to add the linear model onto the graph. Lastly, the ggtitle function is used to add a title to the scatter plot. 
+
+ggplot <- ggplot(data=cars, aes(x= speed, y=dist)) + geom_point() + geom_smooth(method ="lm", formula="y ~ x") + ggtitle("Scatter Plot of Linear Regression of Breaking Distance vs Speed")
+
+## To then display the graph, the ggplot function is used 
+
+ggplot
+
+```
+
+## [Task 3.7]{.underline}
+
+Again using the cars dataset, now use linear regression (lm) to estimate the average reaction time for the driver to start breaking (in seconds). To simplify matters you may assume that once breaking commences, breaking distance is proportional to the square of the speed. Explain the steps in your analysis. Do you get reasonable results? Finally, use ggplot to plot the data points and the fitted relationship.
+
+```{r}
+
+## To begin, we need to assign a variable to both the breaking distance and the speed. For the breaking distance (which is in miles), we can assign it the variable 'distance_m'. For the speed, we assign it the variable of 'speed_mh'. 
+
+## Since the breaking distance in the cars dataset is in feet, we need to divide it by 5280 to convert it from feet to miles. 1 mile is equal to 5280 feet and given that the distance stored in the cars$dist variable is in feet, we divide by the amount of feet in a mile to convert the distances to miles. 
+
+distance_m <- cars$dist/5280
+
+## Since we can assume that once breaking commences, the breaking distance is proportional to the square of the speed, we need to square the value of speed in the cars data set. This is shown below. 
+
+speed_mh <- cars$speed^2
+
+## We can now create a linear regression using the (lm) function to begin estimating the average reaction time for the driver to start breaking 
+
+lm(formula = distance_m ~ speed_mh)
+
+```
+
+```{r}
+
+## We can now estimate the average reaction time for the driver to start breaking in seconds. We firstly need to define a variable called 'reactiontime'. Seeing as the slope is roughly equal to half of the reaction time as shown above, the reaction time will then be equal to 2 times the slope. This is shown below
+
+reactiontime <- 2.443e-05*2 
+
+## Now we need to convert the reaction time from hours to seconds. To do this, we first need to define a new variable which will be 'reactiontime_s' and we then need to divide the reaction time by 3600. One hour is equal to 3600 seconds.
+
+reactiontime_s <- reactiontime/3600
+
+## We then need to retype the variable 'reactiontime_s' in order to print the average reaction time for the driver to start breaking in seconds
+
+reactiontime_s
+
+```
+
+```{r}
+## Answer: To answer the question of whether the above result is reasonable, the answer is no, the result is not reasonable seeing as it produced an impossibly fast reaction time which is not humanely possible.
+```
+
+```{r}
+
+## Finally, we can now plot the data points and the fitted relationship using ggplot
+
+## As before, we need load ggplot from the library
+
+library(ggplot2)
+
+## We need to define a variable for the plot, which in this case we'll call it 'ggplot_new'. We then use the ggplot function and we need to indicate that the dataset we want to use is the 'cars' dataset (data = cars). The aes function is then used to indicate the x and y variables, which are speed_mh and dist_m respectively. The geom_point() is a ggplot2 function that is used to create the scatter plot and the geom_smooth function is used to add the linear regression model to the scatter plot. The linear regression model is indicated as 'lm' in the () brackets. A title is also added to the graph using the ggtitle function.
+
+ggplot_new <- ggplot(data = cars, aes(x= speed_mh, y= distance_m)) + geom_point() + geom_smooth(method= "lm", formula= "y ~ x") + ggtitle("Linear Regression Model of Breaking Distance vs. Speed")
+
+## To display the graph created, we need to type the ggplot_new variable.
+
+ggplot_new
+
+```
+
+# [RNA-seq Assessment]{.underline}
+
+In this part, we will analyse the RNASeq data used in the RNA-seq tutorial to:
+
+1.  create a DESeq2 object,
+
+2.  normalize RNA-seq data with DESeq2,
+
+3.  perform differential Expression analysis with DESeq2,
+
+4.  visualize RNA-seq data using SDM and PCA methods.
+
+```{r}
+
+## Before we start, we first need to set the working directory to the correct file in order to utilise the relevant data.
+
+## We can start by using the getwd() function to tell us what working directory we are currently in
+
+## We can then utilise the following setwd command to set the working directory to the 'course' file in the LMS_RNAseq_short-master-2023-final folder. Make sure that you have downloaded the LMS_RNAseq_short-master-2023-final folder prior to doing the following steps. 
+
+## If you are using Windows, you can use the command 'setwd("~\\Downloads\\LMS_RNAseq_short-master-2023-final\\course")'. If you are using a Mac, you can use the command 'setwd("~/Downloads/LMS_RNAseq_short-master-2023-final/course")'.
+
+## The code above can be altered depending on the path your computer has downloaded the folder under.
+
+```
+
+## [Task 3.8]{.underline}
+
+Read in count data and sample description
+
+-   LMS_RNAseq_short-master-2023-final/course/exercises/data/exercise1_counts.csv
+
+-   LMS_RNAseq_short-master-2023-final/course/exercises/data /exercise1_sample_description.info
+
+```{r}
+
+## We can read in the count data using the 'read.csv' function and we then need to specify the count data file that we want to use, which is shown above. We can do this by using the 'file=' command within the 'read.csv' () brackets. Prior to doing this, however, we need to name a variable for this. In this case, we can name the variable 'counts_all'. We can also use the 'row.names = 1' function to indicate that the first column within the data frame needs to be used to name the rows. 
+
+counts_all <- read.csv(file = "LMS_RNAseq_short-master-2023-final/course/exercises/data/exercise1_counts.csv", row.names = 1)
+
+## To view the count data, we can use the 'head' function.
+head(counts_all)
+
+
+## To read in the sample description, we can utilise the 'read.table()' function. Prior to doing this, we need to define a variable for the sample description data. In this case, we can call the variable 'sample_descrip'.
+
+sample_descrip <- read.table(file = "LMS_RNAseq_short-master-2023-final/course/exercises/data/exercise1_sample_description.info", sep = "\t", header = TRUE)
+
+## To view the sample description data, we can again use the 'head' function.
+head(sample_descrip)
+
+```
+
+## [Task 3.9]{.underline}
+
+Create col_data and check dimensions.
+
+```{r}
+
+# The first step that we need to do is to prepare our data for DESeq. We can do this by first creating a variable called 'col_data'. We can then use the 'data.frame' function to create a data frame around the Sample description that we read in in question 3.8. We can then specify that for 'Sample', we want to use the 'sample' column from the sample_descrip file, and we want to use the 'condition' and 'batch' columns from the sample_descrip file for the 'Group' and 'Batch' inputs, respectively. This is shown below. 
+col_data <- data.frame(Sample = sample_descrip$sample, Group = sample_descrip$condition, Batch = sample_descrip$batch)
+
+# We then need to store our data above as factors. To do this, we use the 'as.factor' function and then indicate which of the above data segments we want to use as inputs.
+col_data$Sample <- as.factor(col_data$Sample)
+col_data$Group <- as.factor(col_data$Group)
+col_data$Batch <- as.factor(col_data$Batch)
+
+# We then need to check the dimensions of our data. We can do this using the 'all()' function and then including both the 'counts_all' variable and the 'sample_descrip$sample' variable in the input. 
+all(colnames(counts_all) == sample_descrip$sample)
+
+```
+
+## [Task 3.10]{.underline}
+
+Construct DESeqDataSet object using count data and sample description
+
+```{r}
+
+## In order to begin constructing a DESeqDataSet object, we first need to load DESeq2 from the library. This is shown below.
+library(DESeq2)
+
+## We can then begin to build the DESeqDataset object. To start, we need to define a variable that will hold our dds data. We can call this variable 'dds'. We can then use the 'DESeqDataSetFromMatrix()' function and we then need to use our count data (counts_all) and our sample description (col_data) variables as inputs in the function. This is shown below. 
+dds <- DESeqDataSetFromMatrix(countData = counts_all, colData = col_data, design = ~Group)
+
+## We then need to apply DESeq normalization to our dds, and to do this we need to use the 'DESeq()' function and utilise our dds as the input for this function. 
+dds <- DESeq(dds)
+
+## We can then obtain and view the results that were produced from the DESeq normalization of our dds. We first need to define a variable which we would like to use to obtain our normalization results. We can call this variable 'dds_res'. To obtain the results, we can simply use the results() function and use our 'dds' variable as the input for this function. To then view these resutls, we can use the 'head()' function. 
+dds_res <- results(dds)
+head(dds_res)
+
+```
+
+## [Task 3.11]{.underline}
+
+Perform rlog and VST transformation on the data.
+
+```{r}
+
+## We can perform Regularized log transformation on our dds data and to do this, we need to use the 'rlog()' function and use our 'dds' data as our input for this function. We can define a variable for the rlog transformation of our dds data, and we can simply call this variable 'rld' as rlog transformed data is commonly referred to as 'rld'. We can then use the 'class()' function to determine the class or which data type our rld data pertains to.
+rld <- rlog(dds)
+class(rld)
+
+## We can then obtain our rld data in count format. To do this, we first define a variable which in this case we can call 'count_rld'. We then use the 'assay()' function and input our 'rld' data into the function to obtain the 'rld' data in count format. We can then again use the 'class()' function to determine which class or data type our 'count_rld' data pertains to.
+count_rld <- assay(rld)
+class(count_rld) 
+
+```
+
+```{r}
+
+## We can also perform Variance Stabilizing Transformation on our dds data. To begin, we first define a variable for the Variance Stabilizing Transformation of our data, and we can call this variable 'vsd' seeing as Variance Stabilizing Transformation data is commonly referred to as 'vsd'. To perform the Variance Stabilizing Transformation, we need to use the 'varianceStabilizingTransformation()' function and use our 'dds' data as the input in this function. As with the above 'rld' data, we can also use the 'class()' function to determine which class or data type our 'vsd' data pertains to. 
+vsd <- varianceStabilizingTransformation(dds)
+class(vsd)
+
+## Similar to the 'rld' data, we also want to obtain our 'vsd' in count format. So, we again define a variable for this and we can call it 'count_vsd'. We can then also use the 'assay()' function and use our above 'vsd' data as the input in this function to obtain the 'vsd' data in count format. The 'class()' function is then again used to determine which class or data type the 'count_vsd' data pertains to.
+count_vsd <- assay(vsd)
+class(count_vsd)
+
+```
+
+## [Task 3.12]{.underline}
+
+Draw a heatmap of count matrix based on the top 40 highly expressed genes using rlog and VST data.
+
+```{r}
+
+## In order to eventually draw the heatmap, we need to load 'pheatmap' from the library. To do this, we simply use the 'library()' function and input'pheatmap' into the function. 
+library(pheatmap)
+
+## We can then obtain the dds normalized counts. We first need to define a variable for this, and in this instance we can call it 'dds_norm_counts'. We can obtain the dds normalized counts by again using the 'counts()' function and using our previous 'dds' data as the input. We can then use the 'head()' function to view this 'dds_norm_counts) data. 
+dds_norm_counts <- counts(dds, normalized = TRUE)
+head(dds_norm_counts)
+
+```
+
+```{r}
+
+## We can then order our 'dds_norm_counts' data and obtain the top 40 highly expressed genes. We can do this by first creating a variable, which in this case we will call 'normcounts'. We can then use the 'order()' function and use our 'dds_norm_counts' data as the input. We can then specify that we want the top 40 highly expressed genes through including [1:40] in our command.
+normcounts <- order(rowMeans(dds_norm_counts), decreasing = TRUE)[1:40]
+head(normcounts)
+
+## We can then create a heatmap of our rlog transformed data ('rld') by using the pheatmap() function and including both our 'assay(rld)' and our 'normcounts' data as inputs in the function. This will then generate a heatmap of a count matrix based on the top 40 highly expressed genes using our rlog data. 
+pheatmap(assay(rld)[normcounts, ])
+
+## We can also create a heatmap of our VST transformed data ('vsd') by again using the pheatmap() function and including both our 'assay(vsd)' and our 'normcounts' data as inputs in the function. This will then generate a heatmap of a count matrix based on the top 40 highly expressed genes using our VST data.
+pheatmap(assay(vsd)[normcounts, ])
+
+```
+
+## [Task 3.13]{.underline}
+
+Generate a SDM to see the clustering of count data
+
+```{r}
+
+## We can generate a Sample Distance Matrix (SDM) from the rlog transformed data that we generated earlier. We first need to define a variable for the SDM and we can call this variable 'sample_distance'. To generate the SDM, we need to use the 'dist()' function and we can use our 'assay(rld)' data as the input in this function in order to see the clustering of the count data. 
+sample_distance <- dist(t(assay(rld)))
+class(sample_distance)
+
+## We now need to obtain the SDM in matrix form. To begin, we need to define a variable for the SDM and we can call this variable 'sampledm'. We then need to use the function 'as.matrix' and use our 'sample_distance' data as the input to obtain the SDM in matrix form. 
+sampledm <- as.matrix(sample_distance)
+class(sampledm)
+
+## We then need to load RColorBrewer from the library. To do this, we simply use the function library() and use 'RColorBrewer' as the input. 
+library(RColorBrewer)
+
+## We now need to add names to the rows of our SDM to make the matrix more readable. We can add row names to our SDM through the use of the 'rownames()' function and using our 'sampledm' data as the input. We can then specify that we want to use the 'Group' information stored in the 'rld' data to name the rows of the SDM. We can do this by using the following command: 'rld$Group'. Because we do not want to add column names to the SDM, we can use the following command 'colnames(sampledm) <- NULL'. The 'NULL' indicates that no column names are to be added to the SDM.  
+rownames(sampledm) <- rld$Group
+colnames(sampledm) <- NULL
+
+## We can add colours to our SDM through using the 'colorRampPalette()' function. As shown below, green was chosen as the colour palette for the SDM as is indicated by "Greens". 
+colors <- colorRampPalette(rev(brewer.pal(9, "Greens")))(255)
+
+## We can now plot heatmap by using the function 'pheatmap()' and we can include the 'sampledm' data as an input as well as indicating that the clustering distance rows and the clustering distance columns need to be taken from the 'sample_distance' data. We can then also include the colour palette that we have selected earlier in the input by stating 'col = colors'. This will then generate an SDM to see the clustering of our count data. 
+pheatmap(sampledm, clustering_distance_rows = sample_distance, clustering_distance_cols = sample_distance, col = colors)
+
+```
+
+## [Task 3.14]{.underline}
+
+Perform the Principal Component Analysis using rlog method and find out the % significance values of first two principal components.
+
+```{r}
+
+## We can perform the Principal Component Analysis using the rlog method through use of the 'plotPCA()' function. We can then specify that we would like to use our rlog ('rld') data as the input for the PCA plot. We can then also specify that we would like for the samples to be labelled according to the contents of the 'Group' column within the 'rld' data. We can do this through the command 'intgroup = "Group"'.
+plotPCA(rld, intgroup = "Group")
+
+```
+
+## [Task 3.15]{.underline}
+
+Repeat the PCA, this time using VST method and compare the plots with the ones obtained using rlog method.
+
+```{r}
+
+## We can perform the Principal Component Analysis using the VST method through use of the 'plotPCA()' function. We can then specify that we would like to use our VST ('vsd') data as the input for the PCA plot. We can then also specify that we would like for the samples to be labelled according to the contents of the 'Group' column within the 'vsd' data. We can do this through the command 'intgroup = "Group"'.
+plotPCA(vsd, intgroup = "Group")
+
+## "Compare the plots with the ones obtained using rlog method". There are some slight differences between the two plots. The distribution of the different groups is not too disimilar between the two plots and the '% variance' values on the axes of the two plots are not too disimilar as well. Overall, the are quite similar, with slight visual changes in the distributions of the data points of the different groups.  
+
+```
+
+# [ChIP-Seq Assessment]{.underline}
+
+In this assessment, we will read in two replicate sets of CHIP-seq peaks from the Myc Encode dataset and extract sequences underneath subsets of peaks. We will write these sequences out to a FASTA file and upload the FASTA file to Meme-ChIP to detect motifs underneath of these peaks.
+
+```{r}
+
+## Prior to beginning, we again need to set the working directory to the relevant file to access the ChIP-Seq data. To do this, we can use the setwd() function. 
+
+## We can then utilise the following setwd command below to set the working directory to the 'course' file in the LMS_ChIPseq_short-master-2023-final folder. Make sure that you have downloaded the LMS_ChIPseq_short-master-2023-final folder prior to doing the following steps. 
+
+## If you are using Windows, you can use the command 'setwd("~\\Downloads\\LMS_ChIPseq_short-master-2023-final\\course")'. If you are using a Mac, you can use the command 'setwd("~/Downloads/LMS_ChIPseq_short-master-2023-final/course")'.
+
+```
+
+## [Task 3.16]{.underline}
+
+Read in the two Myc Mel peakset replicates and create the common peakset as we did for our previous exercise. The files needed are here:
+
+-   LMS_ChIPseq_short-master-2023-final/course/data/MacsPeaks/mycmelrep1_peaks.xls
+
+-   LMS_ChIPseq_short-master-2023-final/course/data/MacsPeaks/mycmelrep2_peaks.xls
+
+```{r}
+
+## To begin, we need to read in the files above and we can do this by using the 'GetGRanges' function that is available within the 'ChIPQC' package here on R. We need to name variables for each of the peakset replicates, and in this case they were named 'PeakSet1' and 'PeakSet2' respectively. We then include their respective .xls files in the "" within the GetGRanges () brackets. 
+PeakSet1 <- ChIPQC:::GetGRanges("LMS_ChIPseq_short-master-2023-final/course/data/MacsPeaks/mycmelrep1_peaks.xls", sep="\t", simple=F)
+PeakSet2 <- ChIPQC:::GetGRanges("LMS_ChIPseq_short-master-2023-final/course/data/MacsPeaks/mycmelrep2_peaks.xls", sep="\t", simple=F)
+
+## To create the common peakset between the two files, we first need to start by creating a variable called 'peaks_all'. We can then use the 'c()' function to indicate that we want to concatenate 'PeakSet1' and 'PeakSet2' into the 'peaks_all' file, and this will enable the peaks within both 'PeakSet1' and 'PeakSet2' to be placed on top of one another to create a file that contains all peaks. 
+peaks_all <- c(PeakSet1, PeakSet2)
+
+## We then need to reduce the 'peaks_all' file and we can do this by using the 'reduce()' function. We need to name a variable in which we would like for this process to occur and in this case, the variable was named 'peaks_all_Reduced'. 
+peaks_all_Reduced <- reduce(peaks_all)
+
+## We can obtain the length of the peaks_all file by using the 'length()' function, and using the 'peaks_all' file as the input in this function. This is shown below. 
+length(peaks_all)
+
+## We can also obtain to the length of the 'peaks_all_Reduced' file to confirm that the peaks were actually reduced. We again use the 'length()' function for this and use the 'peaks_all_Reduced' file as the input in this function
+length(peaks_all_Reduced)
+
+## We can now create a common peakset by using the %over% function and including the relevant files that we would like to us. We first define a variable for this process and it was called 'Common.peakset' in this case. We use the 'peaks_all_Reduced' file and then use the [] brackets to select that we want to overlap (%over%) the 'peaks_all_Reduced' file with the 'PeakSet1' file and that we also want to overlap the 'peaks_all_Reduced' file with the 'PeakSet2' file. The output from this command will be a file that contains the common peaks between PeakSet1 and PeakSet2. 
+Common.peakset <- peaks_all_Reduced[peaks_all_Reduced %over% PeakSet1 & peaks_all_Reduced %over% PeakSet2]
+
+## We can then check the length of the 'Common.peakset' file to observe the amount of common peaks between the two peakset files. Again, we use the 'length()' function to do this. 
+length(Common.peakset)
+
+```
+
+## [Task 3.17]{.underline}
+
+Now we can rank them by their fold enrichment, select the top 500 peaks and resize these peaks to 200bp around centre.
+
+```{r}
+
+## We can now rank the peaks in the 'PeakSet1' file based on their fold enrichment but in order to do so, we first need to create a variable called foldEnrichment. We then indicate that we would like to use the 'PeakSet1' file and that we would like for the peaks to be ranked according to their fold enrichment and to do this, we can use the $ and input "fold_enrichment". This is shown below.
+
+foldEnrichment <- PeakSet1$fold_enrichment
+
+## To select and display the top 10 ranges based on fold enrichment ranking, we can use the [] brackets to select for them. This is shown below. 
+foldEnrichment[1:10]
+
+## We can now resize the 'Common.peakset' file such that the peaks are 200bp around the center. To do this, we need to use the 'resize()' function and we need to indicate within the () that we would like to resize the 'Common.peakset' file and that we would like for the peaks to be resized to 200bp around the centre. To indicate all of the aforementioned criteria, we can input the following into the () brackets: (Common.peakset, 200, fix="center"). This is shown below.
+Common.peakset <- resize(Common.peakset, 200, fix="center")
+
+## We can then select for the top 500 peaks by using the Common.peakset variable that we just resized in the previous step. We can then use the [] brackets to select for the top 500 peaks by indicating it as follows: [1:500,]. This is shown below.
+Common.peakset[1:500,]
+
+```
+
+## [Task 3.18]{.underline}
+
+Extract the sequences underneath the file and write them to FASTA file in you working directory. Inspect the file in notepad.
+
+```{r}
+## To begin, we have to load BSgenome and BSgenome.Mmusculus.UCSC.mm9 from the library using the 'library()' function. This is shown below.
+library(BSgenome)
+library(BSgenome.Mmusculus.UCSC.mm9)
+
+## We then need to create a variable to indicate that we want to use the 'BSgenome.Mmusculus.UCSC.mm9' genome as our genome downstream. This is done below. 
+genome <- BSgenome.Mmusculus.UCSC.mm9
+
+## We then need to set the sequence level styles that are in the 'Common.peakset' file according to what it shows in UCSC. This is shown below. 
+seqlevelsStyle(Common.peakset) <- "UCSC"
+
+## We can now use the 'getSeq()' function to extract sequences from both the above 'genome' and 'Common.peakset' files and to place them into the variable that we have called 'Common.peakset_Sequence'. This is shown below. 
+Common.peakset_Sequences <- getSeq(genome,GRanges(Common.peakset))
+
+## Because we used the 'getSeq()' function above, we now need to provide it with a names vector to instruct the 'getSeq()' function from where it needs to obtain its seqeunces. This entire command line is shown below, where we indicate to getSeq() where all of the sequences need to be obtained from. 
+names(Common.peakset_Sequences) <- paste0("peak_", seqnames(Common.peakset),"_", start(Common.peakset), "-", end(Common.peakset))
+
+## We can then again select for the top 500 peaks to be included in the file. This is done using the [] brackets to select for them in the 'Common.peakset_Sequences' file. 
+Common.peakset_Sequences[1:500,]
+
+## We can now write the sequences to a FASTA file using the command 'writeXStringSet' and using the 'Common.peakset_Sequences' file as the input. We then need to specify that we want the file to be a FASTA file and we do this through including the argument 'file="consensus_Peaks.fa"' in the () brackets. 
+writeXStringSet(Common.peakset_Sequences, file="consensus_Peaks.fa") 
+
+```
+
+## [Task 3.19]{.underline}
+
+Upload the sequences to Meme-ChIP and report the results when complete.
+
+```{r}
+
+##Below is the Meme-ChIP HTML output file that was produced from uploading the 'consensus_Peaks.fs'
+
+## https://meme-suite.org/meme//opal-jobs/appMEMECHIP_5.5.21681764322881843395408/meme-chip.html 
+
+```
